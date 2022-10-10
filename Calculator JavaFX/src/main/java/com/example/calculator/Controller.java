@@ -133,7 +133,9 @@ public class Controller {
             printSign('/');
         });
         butPixel.setOnAction(event ->{
-            labelActive.setText(labelActive.getText() + ".");
+            String text = labelActive.getText();
+            if (!text.substring(text.length() - 1, text.length()).equals("."))
+                labelActive.setText(labelActive.getText() + ".");
         });
         butOpenBracket.setOnAction(event -> {
             if (labelActive.getText().isEmpty()){
