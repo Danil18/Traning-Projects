@@ -135,7 +135,7 @@ public class Controller {
         butPixel.setOnAction(event ->{
             String text = labelActive.getText();
             if (!text.substring(text.length() - 1, text.length()).equals("."))
-                labelActive.setText(labelActive.getText() + ".");
+                labelActive.setText(text + ".");
         });
         butOpenBracket.setOnAction(event -> {
             if (labelActive.getText().isEmpty()){
