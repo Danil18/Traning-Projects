@@ -1,0 +1,43 @@
+<div xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="pagination">
+    <div class="container pt-1">
+        <div class="row">
+            <ul class="pagination col justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Страницы</a>
+                </li>
+                <th:block th:each="p: ${pageBody}">
+                    <li th:if="${p}-1 == ${page.number}" class="page-item active">
+                        <a class="page-link" href="#" tabindex="-1">[[${p}]]</a>
+                    </li>
+                    <li th:if="${p} == -1" class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">..</a>
+                    </li>
+                    <li th:if="${p}-1 != ${page.number} and ${p} != -1" class="page-item">
+                        <a class="page-link" th:href="@{{url}?page={page}&size={size}(url=${url}, page=${p-1}, size=${page.size})}" tabindex="-1">[[${p}]]</a>
+                    </li>
+                </th:block>
+             </ul>
+
+            <ul class="pagination col justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Элементов на странице</a>
+                </li>
+                <th:block th:with="list = ${#strings.arraySplit('2,5,10,25,50',',')}">
+                    <th:block th:each="c: ${list}">
+                        <li th:if="${c} == ${page.size}" class="page-item active">
+                            <a class="page-link" href="#" tabindex="-1">[[${c}]]</a>
+                        </li>
+                        <li th:if="${c} != ${page.size}" class="page-item">
+                            <a class="page-link" th:href="@{{url}?page={page}&size={size}(url=${url}, page=${page.number}, size=${c})}" tabindex="-1">[[${c}]]</a>
+                        </li>
+                    </th:block>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</th:block>
+</body>
+</div>

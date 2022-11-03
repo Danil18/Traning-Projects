@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header">header</div>
+<div class="container-fluid">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <th:block th:unless="${message}">
+                <h4 class="text-center mb-4">Обратная связь</h4>
+                <form th:action="@{/feedback}" method="post">
+                    <div class="mb-3">
+                        <label class="col-sm-2 form-label" for="email">Ваша почта:</label>
+                        <input class="form-control" type="email" id="email" name="email" placeholder="e-mail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="feedback" class="form-label">Сообщение: </label>
+                        <textarea class="form-control"  id="feedback" name="feedback" rows="4" placeholder="Сообщение"></textarea>
+                    </div>
+                    <div class="row justify-content-center my-4">
+                        <input type="submit" class="btn btn-primary col-md-6" value="Sign In">
+                    </div>
+                </form>
+            </th:block>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:replace="fragments/header :: header">header</div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-9 mt-2">
+                <div th:each="category: ${categories}">
+                    <th:block th:if="${category.productInCategory.size()} > 0">
+                        <a th:href="@{/category/{id}(id = ${category.id})}"><h3 class="text-center">[[${category.name}]]:</h3></a>
+                        <div class="container-fluid my-3">
+                            <div th:each="product: ${category.productInCategory}">
+                                <div th:replace="fragments/product :: product">product</div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

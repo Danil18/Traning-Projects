@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/admin_header :: admin_header">header</div>
+<div class="ms-5 my-3">
+    <a class="btn btn-outline-primary" href="/admin/order">Обратно к списку заказов</a>
+</div>
+<div class="ms-5 my-3">
+    <h3>Просмотр заказа №[[${order.id}]]</h3>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-10">
+        <div class="mt-2 fs-5"><b>Информация о заказе:</b></div>
+        <div class="col-sm-4">
+            <table class="table mt-2">
+                <tbody>
+                <tr>
+                    <td scope="col">Имя клиента: </td>
+                    <td scope="col">[[${order.user.username}]]</td>
+                </tr>
+                <tr>
+                    <td scope="col">Номер телефона: </td>
+                    <td scope="col">[[${order.user.phone}]]</td>
+                </tr>
+                <tr>
+                    <td scope="col">Статус заказа: </td>
+                    <td scope="col">[[${order.status}]]</td>
+                </tr>
+                <tr>
+                    <td scope="col">Дата заказа: </td>
+                    <td scope="col">[[${#dates.format(order.date)}]]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:if="${order.userComment} != ''" class="col-sm-10 my-3">
+        <span>Комментарий клиента:</span>
+        <pre>[[${order.userComment}]]</pre>
+    </div>
+
+    <div class="col-sm-10 my-4">
+        <div class="mb-2 fs-5"><b>Товары в заказе:</b></div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID товара</th>
+                    <th scope="col">Артикул товара</th>
+                    <th scope="col">Назавание</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product: ${order.products.keySet()}">
+                    <td scope="col">[[${product.id}]]</td>
+                    <td scope="col">[[${product.code}]]</td>
+                    <td scope="col">[[${product.name}]]</td>
+                    <td scope="col">[[${product.price}]]</td>
+                    <td scope="col">[[${order.products.get(product)}]]</td>
+                    <td scope="col"><a class="link-primary" th:href="@{/product/{id}(id=${product.id})}">Смотреть</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="admin_item_form">
+    <form th:action="${object.id} ? @{/{pageType}/{id}(id=${object.id}, pageType=${pageType})} : @{/{pageType}/new(pageType=${pageType})}"
+          th:method="${object.id} ? 'PATCH' : 'POST'" th:object="${object}"
+          enctype="multipart/form-data">
+        <div th:if="*{id} != null" class="mb-3 row">
+            <label for="id" class="col-sm-2 col-form-label">ID: </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext"  id="id" name="id" th:field="*{id}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="name" class="col-sm-2 col-form-label ">Название: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  id="name" name="name" th:field="*{name}">
+            </div>
+        </div>
+        <th:block th:if="${pageType} == 'product'">
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label ">Категория: </label>
+                <div class="col-sm-10">
+                    <select name="category" class="form-select" th:field="*{category.id}">
+                        <th:block th:each="category : ${categories}">
+                            <option th:value="${category.id}" th:text="${category.name}">
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="code" class="col-sm-2 col-form-label ">Артикул: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  id="code" name="code" th:field="*{code}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="price" class="col-sm-2 col-form-label ">Цена: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  id="price" name="price" th:field="*{price}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="quantity" class="col-sm-2 col-form-label ">Количество на складе: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  id="quantity" name="quantity" th:field="*{quantity}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="brand" class="col-sm-2 col-form-label ">Бренд: </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"  id="brand" name="brand" th:field="*{brand}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="description" class="col-sm-2 col-form-label ">Описание: </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control"  id="description" name="description" rows="3" th:field="*{description}"></textarea>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="characteristics" class="col-sm-2 col-form-label ">Характеристики: </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control"  id="characteristics" name="characteristics" rows="3" th:field="*{characteristics}"></textarea>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="mainFile" class="col-sm-2 col-form-label">Главное фото товара</label>
+                <div class="col-sm-10 mb-3">
+                    <input class="form-control" type="file" id="mainFile" name="mainFile">
+                </div>
+                <div class="col-sm-2"></div>
+                <div th:if="*{mainImg}" class="col-sm-2">
+                    <img class="img-thumbnail" th:src="@{/img/{id}/{filename}(id = *{id}, filename = *{mainImg})}" alt="">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="files" class="col-sm-2 col-form-label">Дополнительные фото товара</label>
+                <div class="col-sm-10 mb-3">
+                    <input class="form-control" type="file" id="files" name="files"multiple>
+                </div>
+            </div>
+            <div th:if="${files}" class="mb-3 row">
+                <div class="col-sm-2"></div>
+                <div th:each="name: ${files}" class="col-sm-2">
+                    <img class="img-thumbnail" th:src="@{/img/{id}/{name}(id = *{id}, name = ${name})}" alt="">
+                </div>
+            </div>
+        </th:block>
+        <div th:if="${pageType} == 'category'" class="mb-3 row">
+            <label for="sortOrder" class="col-sm-2 col-form-label">Порядок в списке категорий: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"  id="sortOrder" name="sortOrder" th:field="*{sortOrder}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label ">Видимость посетителям: </label>
+            <div class="col-sm-10">
+                <select name="status" class="form-select" th:field="*{status}">
+                    <option value="1" >Видно</option>
+                    <option value="0">Не видно</option>
+                </select>
+            </div>
+        </div>
+        <div class="row justify-content-center my-4">
+            <input type="submit" class="btn btn-primary col-md-6" value="Сохранить">
+        </div>
+    </form>
+    </th:block>
+
+    <th:block th:fragment="admin_order_form">
+        <form th:action="@{/order/{id}(id=${object.id})}" th:method="PATCH" th:object="${object}">
+            <div class="mb-3 row">
+                <label for="id" class="col-sm-2 col-form-label">ID: </label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"  id="id" name="id" th:field="*{id}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="userComment" class="col-sm-2 col-form-label">Комментарий пользователя: </label>
+                <div class="col-sm-10">
+                    <textarea th:class="${userCommentError} ? 'form-control is-invalid' : 'form-control'"
+                              id="userComment" name="userComment" rows="3" th:field="*{userComment}"></textarea>
+                    <div th:if="${userCommentError}" class="invalid-feedback">[[${userCommentError}]]</div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label ">Статус заказа: </label>
+                <div class="col-sm-10">
+                    <select name="status" class="form-select" th:field="*{status}">
+                        <option value="Новый заказ" >Новый заказ</option>
+                        <option value="В обработке">В обработке</option>
+                        <option value="Доставляется">Доставляется</option>
+                        <option value="Ожидает получения">Ожидает получения</option>
+                        <option value="Завершён">Завершён</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center my-4">
+                <input type="submit" class="btn btn-primary col-md-6" value="Сохранить">
+            </div>
+        </form>
+    </th:block>
+
+    <th:block th:fragment="admin_user_form">
+        <form th:action="@{/user/{id}(id=${object.id})}" th:method="PATCH" th:object="${object}">
+            <div class="mb-3 row">
+                <label for="id" class="col-sm-2 col-form-label">ID: </label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext"  id="id" name="id" th:field="*{id}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="username" class="col-sm-2 col-form-label">Имя пользователя: </label>
+                <div class="col-sm-10">
+                    <input th:class="${usernameError} ? 'form-control is-invalid' : 'form-control'"
+                           type="text" id="username" name="username"
+                           th:field="*{username}">
+                    <div th:if="${usernameError}" class="invalid-feedback">[[${usernameError}]]</div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="password" class="col-sm-2 col-form-label">Password: </label>
+                <div class="col-sm-10">
+                    <input th:class="${passwordError} ? 'form-control is-invalid' : 'form-control'"
+                           type="password" id="password" name="password">
+                    <div th:if="${passwordError}" class="invalid-feedback">[[${passwordError}]]</div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label" for="email">email:</label>
+                <div class="col-sm-10">
+                    <input th:class="${emailError} ? 'form-control is-invalid' : 'form-control'"
+                           type="email" id="email" name="email" th:field="*{email}">
+                    <div th:if="${emailError}" class="invalid-feedback">[[${emailError}]]</div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="phone" class="col-sm-2 col-form-label">Phone Number: </label>
+                <div class="col-sm-10">
+                    <input th:class="${phoneError} ? 'form-control is-invalid' : 'form-control'"
+                           type="text" id="phone" name="phone" th:field="*{phone}">
+                    <div th:if="${phoneError}" class="invalid-feedback">[[${phoneError}]]</div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <span class="col-sm-2">Роли пользователя:</span>
+                <div class="col-sm-2" th:each="role : ${roles}">
+                    <label for="${role}" class="form-check-label">[[${role}]]: </label>
+                    <input class="form-check-input" type="checkbox" id="${role}" name="${role}" th:field="*{roles}" th:value="${role}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label ">Активность аккаунта: </label>
+                <div class="col-sm-10">
+                    <select name="active" class="form-select" th:field="*{active}">
+                        <option value="1">Активен</option>
+                        <option value="0">Не активен</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row justify-content-center my-4">
+                <input type="submit" class="btn btn-primary col-md-6" value="Сохранить">
+            </div>
+        </form>
+
+    </th:block>
+</div>

@@ -1,0 +1,69 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="header">
+        <head>
+        <title>E-Shop</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+            <style>
+                html { height: 100%; }
+                body {
+                  min-height:100%;
+                  position:relative;
+                  padding-bottom: 70px;
+                }
+                .footer {
+                  position: absolute;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  height: 50px;
+                }
+            </style>
+        </head>
+        <body class="bg-light">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a href="/" class="navbar-brand">E-Shop</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item"><a th:class="${url} == '' ? 'nav-link active' : 'nav-link'" href="/">Главная</a></li>
+                            <li class="nav-item"><a th:class="${url} == '/catalog' ? 'nav-link active' : 'nav-link'" href="/catalog">Каталог товаров</a></li>
+                            <li class="nav-item"><a th:class="${url} == '/about' ? 'nav-link active' : 'nav-link'" href="/about">О нас</a></li>
+                            <li class="nav-item"><a th:class="${url} == '/feedback' ? 'nav-link active' : 'nav-link'" href="/feedback">Обратная связь</a></li>
+                        </ul>
+                        <b th:text="${session.SPRING_SECURITY_CONTEXT} ? ${session.SPRING_SECURITY_CONTEXT.authentication.principal.username} : 'unknown'" class="navbar-text mx-3"></b>
+                        <ul class="navbar-nav d-flex">
+                            <li class="nav-item mx-2">
+                                <b><a class="nav-link" href="/cart" th:text="${session.productsInCart} ? 'Корзина (' + ${#aggregates.sum(session.productsInCart.values())} +')' : 'Корзина (0)'">Корзина</a></b>
+                            </li>
+                            <th:block th:if="${session.SPRING_SECURITY_CONTEXT}">
+                                <li th:if="${session.SPRING_SECURITY_CONTEXT.authentication.principal.isAdmin()}">
+                                    <a class="btn btn-outline-primary" href="/admin">Панель администратора</a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <form th:action="@{/logout}" method="post" class="d-flex">
+                                        <input type="submit" class="btn btn-outline-warning" value="Выйти"/>
+                                    </form>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="btn btn-outline-warning" href="/cabinet">Личный кабинет</a>
+                                </li>
+                            </th:block>
+                            <th:block th:unless="${session.SPRING_SECURITY_CONTEXT}">
+                                <li class="nav-item mx-2">
+                                    <a class="btn btn-outline-warning" href="/login">Войти</a>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <a class="btn btn-outline-warning" href="/registration">Регистрация</a>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <hr class="mt-0">
+    </th:block>
+</div>

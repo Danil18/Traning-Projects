@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header">header</div>
+<div class="container-fluid">
+    <div class="ms-5 my-4">
+        <a class="ms-5 link-dark fs-5" href="/">Вернуться к покупкам</a>
+        <h2 class="ms-5">Корзина</h2>
+    </div>
+    <div class="row justify-content-center">
+        <th:block th:if="${productList}">
+            <div class="col-md-8">
+                <div th:each="product : ${productList}" class="card mb-4 px-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <h5 class="card-title">
+                                    <a class="link-dark" th:href="@{/product/{id}(id=${product.id})}">[[${product.name}]]</a>
+                                </h5>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-dark">
+                                    <b>Количество:
+                                        <a th:href="@{/cart/{id}/minus(id=${product.id})}">-</a>
+                                        [[${session.productsInCart.get(product.id)}]]
+                                        <a th:href="@{/cart/{id}/plus(id=${product.id})}">+</a>
+                                    </b>
+                                </p>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="text-dark"><b>Цена: [[${product.price}]] $</b></p>
+                            </div>
+                            <div class="col-md-1">
+                                <a class="link-danger" th:href="@{/cart/{id}/del(id=${product.id})}"><b>Удалить</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 flex-column">
+                <p class="fs-5">Всего товаров: [[${#aggregates.sum(session.productsInCart.values())}]]</p>
+                <p class="text-warning fs-5">Общая цена: <b>[[${totalPrice}]] $</b></p>
+                <a class="btn btn-warning" href="/order/new">Оформить заказ</a>
+                <form th:action="@{/cart}" th:method="DELETE">
+                    <input class="btn btn-danger my-5" type="submit" value="Очистить корзину">
+                </form>
+            </div>
+        </th:block>
+        <th:block th:unless="${productList}">
+            <p class="fs-2 text-center">Ваша корзина пуста</p>
+        </th:block>
+    </div>
+    <div th:replace="fragments/footer :: footer">footer</div>
+</div>
+</body>
+</html>

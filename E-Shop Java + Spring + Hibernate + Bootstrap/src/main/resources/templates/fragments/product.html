@@ -1,0 +1,29 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="product">
+        <div class="card mb-4 px-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <img class="img-thumbnail"
+                             th:src="@{/img/{id}/{filename}(id = ${product.mainImg} != null ? ${product.id} : 'default',
+                              filename = ${product.mainImg} != null ? ${product.mainImg} : 'no_image.jpg')}"
+                             alt="Без картинки">
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="card-title"><a class="link-dark" th:href="@{/product/{id}(id=${product.id})}">[[${product.name}]]</a></h5>
+                        <p class="card-text">
+                            [[${product.description} != '' ?
+                            (${product.description.length} > 350 ? ${product.description.substring(0, 350)} + ' ...' : ${product.description}) :
+                            (${product.characteristics.length} > 350 ? ${product.characteristics.substring(0, 350)} + ' ...' : ${product.characteristics})]]</p>
+                    </div>
+                    <div class="col-lg-2 align-middle fs-5">
+                        <p class="text-warning"><b>Price: [[${product.price}]] $</b></p>
+                        <form th:action="@{/cart/add/{id}(id=${product.id})}" th:method="post" class="d-flex">
+                            <input type="submit" class="btn btn-warning" value="Добавить в корзину"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>

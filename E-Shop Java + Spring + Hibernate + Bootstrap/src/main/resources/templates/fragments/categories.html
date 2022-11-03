@@ -1,0 +1,12 @@
+<div xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="categories">
+    <div th:replace="fragments/pagination :: pagination">pagination</div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-2 mt-5 px-4">
+                <div class="fs-4 mt-2" th:each="category: ${categories}">
+                    <a th:class="${category.id} == ${categoryId} ? 'nav-link text-muted text-decoration-underline' : 'nav-link'" th:href="@{/category/{id}(id=${category.id})}">[[${category.name}]]</a>
+                </div>
+            </div>
+</th:block>
+</div>

@@ -1,0 +1,73 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="login_form (path)">
+        <th:block th:switch="${path}">
+            <h4 th:case="'/login'" class="text-center mb-4">Авторизация</h4>
+            <h4 th:case="'/registration'" class="text-center mb-4">Регистрация</h4>
+            <h4 th:case="'/user/edit'" class="text-center mb-4">Изменение данных пользователя: [[${user.username}]]</h4>
+        </th:block>
+
+        <div th:switch="${pageType}">
+            <a th:case="'category'" class="btn btn-outline-info" href="/admin/category">Добавить новую категорию</a>
+            <a th:case="'product'" class="btn btn-outline-info" href="/admin/product">Добавить новый товар</a>
+        </div>
+        <form th:action="@{{path}(path=${path})}"
+              th:method="${path} == '/user/edit' ? 'PATCH' : 'POST'">
+            <div class="mb-3">
+                <label for="username" class="form-label">User Name: </label>
+                <input th:class="${usernameError} ? 'form-control is-invalid' : 'form-control'"
+                       type="text" id="username" name="username" th:value="${user} ? ${user.username}">
+                <div th:if="${usernameError}" class="invalid-feedback">[[${usernameError}]]</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password: </label>
+                <input th:class="${passwordError} ? 'form-control is-invalid' : 'form-control'"
+                       type="password" id="password" name="password">
+                <div th:if="${passwordError}" class="invalid-feedback">[[${passwordError}]]</div>
+            </div>
+            <th:block th:if="${path} == '/registration' or ${path} == '/user/edit'">
+                <div class="mb-3">
+                    <label for="password2" class="form-label">Password confirmation: </label>
+                    <input th:class="${password2Error} ? 'form-control is-invalid' : 'form-control'"
+                           type="password" id="password2" name="password2">
+                    <div th:if="${password2Error}" class="invalid-feedback">[[${password2Error}]]</div>
+                </div>
+                <div class="mb-3">
+                    <label class="col-sm-2 form-label" for="email">email:</label>
+                    <input th:class="${emailError} ? 'form-control is-invalid' : 'form-control'"
+                           type="email" id="email" name="email" th:value="${user} ? ${user.email}">
+                    <div th:if="${emailError}" class="invalid-feedback">[[${emailError}]]</div>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number: </label>
+                    <input th:class="${phoneError} ? 'form-control is-invalid' : 'form-control'"
+                           type="text" id="phone" name="phone" th:value="${user} ? ${user.phone}">
+                    <div th:if="${phoneError}" class="invalid-feedback">[[${phoneError}]]</div>
+                </div>
+            </th:block>
+            <div class="row justify-content-center my-4">
+                <input type="submit" class="btn btn-primary col-md-6" value="Sign In">
+            </div>
+        </form>
+    </th:block>
+
+    <th:block th:fragment="edit_form">
+        <h4 class="text-center mb-4">Изменение данных пользователя: [[${user.username}]]</h4>
+        <form th:action="@{/user/edit}" th:method="PATCH" th:object="${user}">
+            <div class="mb-3">
+                <label for="password" class="form-label">Password: </label>
+                <input class="form-control" type="password" id="password" name="password">
+            </div>
+            <div class="mb-3">
+                <label class="col-sm-2 form-label" for="email">email:</label>
+                <input class="form-control" type="email" id="email" name="email" th:field="*{email}">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number: </label>
+                <input class="form-control" type="text" id="phone" name="phone" th:field="*{phone}">
+            </div>
+            <div class="row justify-content-center my-4">
+                <input type="submit" class="btn btn-primary col-md-6" value="Sign In">
+            </div>
+        </form>
+    </th:block>
+</div>

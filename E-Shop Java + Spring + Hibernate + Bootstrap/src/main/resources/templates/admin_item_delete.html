@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/admin_header :: admin_header">header</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div th:switch="${pageType}" class="col-sm-10 my-4">
+            <a th:case="'category'" class="link-primary fs-4" href="/admin/category">Назад к списку категорий</a>
+            <a th:case="'product'" class="link-primary fs-4" href="/admin/product">Назад к списку продуктов</a>
+            <a th:case="'order'" class="link-primary fs-4" href="/admin/order">Назад к списку заказов</a>
+            <a th:case="'user'" class="link-primary fs-4" href="/admin/user">Назад к списку пользователей</a>
+        </div>
+        <div th:switch="${pageType}" class="col-sm-10 my-3">
+            <h3 th:case="'category'">Удалить категорию №[[${object.id}]]</h3>
+            <h3 th:case="'product'">Удалить продукт №[[${object.id}]]</h3>
+            <h3 th:case="'order'">Удалить заказ №[[${object.id}]]</h3>
+            <h3 th:case="'user'">Удалить пользователя №[[${object.id}]]</h3>
+        </div>
+        <th:block th:object="${object}">
+            <div th:if="${pageType} == 'product' or ${pageType} == 'category'" class="col-sm-10 my-2">Название: [[*{name}]]</div>
+            <th:block th:if="${pageType} == 'order'">
+                <div class="col-sm-10 my-2">Дата: [[*{date}]]</div>
+                <div class="col-sm-10 my-2">Статус: [[*{status}]]</div>
+            </th:block>
+            <th:block th:if="${pageType} == 'product'">
+                <div class="col-sm-10 my-2">Артикул: [[*{code}]]</div>
+                <div class="col-sm-10 my-2">Цена: [[*{price}]]</div>
+            </th:block>
+            <th:block th:if="${pageType} == 'user'">
+                <div class="col-sm-10 my-2">Имя покупателя: [[*{username}]]</div>
+            </th:block>
+            <div class="col-sm-10 my-2">
+                <form th:action="@{/{item}/{id}(id=*{id}, item=${pageType})}" th:method="DELETE">
+                    <input type="submit" class="btn btn-danger col-md-4" value="Удалить">
+                </form>
+            </div>
+        </th:block>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

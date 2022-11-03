@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/admin_header :: admin_header">header</div>
+<div class="container-fluid">
+    <div class="ms-5 my-3">
+        <h3>Панель администратора</h3>
+    </div>
+    <div class="ms-5 my-3">
+        <a class="link-primary fs-4" href="/admin/product">Управление товарами</a>
+    </div>
+    <div class="ms-5 my-3">
+        <a class="link-primary fs-4" href="/admin/category">Управление категориями</a>
+    </div>
+    <div class="ms-5 my-3">
+        <a class="link-primary fs-4" href="/admin/order">Управление заказами</a>
+    </div>
+    <div class="ms-5 my-3">
+        <a class="link-primary fs-4" href="/admin/user">Управление пользователями</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

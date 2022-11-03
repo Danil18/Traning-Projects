@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header">header</div>
+<div th:unless="${message}" class="col-md-10">
+    <div th:replace="fragments/pagination :: pagination">pagination</div>
+</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-11 mt-2">
+            <h3 class="text-center mt-3 mb-4">Кабинет пользователя: [[${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}]]</h3>
+            <div class="row">
+                <div class="col-md-2">
+                    <a th:href="@{/user/edit}">Редактировать данные пользователя</a>
+                </div>
+                <div th:if="${message}" class="fs-3 my-5 text-center" >
+                    [[${message}]]
+                </div>
+                <div th:unless="${message}" class="col-md-10">
+
+                    <div th:each="order : ${page.getContent()}" class="card mb-4 px-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <h5 class="card-title">Заказ №[[${order.id}]], создан
+                                        [[${#dates.format(order.date)}]]</h5>
+                                </div>
+                                <div class="col-md-2">
+                                    <p>Всего товаров:
+                                        [[${#aggregates.sum(order.products.values())}]]</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-warning fs-5">Общая цена: <b>[[${order.getTotalPrice()}]]
+                                        $</b></p>
+                                </div>
+                            </div>
+                            <hr class="mt-0 mb-4">
+                            <div th:each="product: ${order.products.keySet()}" class="row mt-3">
+                                <div class="col-md-1">
+                                    <img class="card-img-top"
+                                         th:src="@{/img/{id}/{filename}(id = ${product.mainImg} != null ? ${product.id} : 'default',
+                                         filename = ${product.mainImg} != null ? ${product.mainImg} : 'no_image.jpg')}"
+                                         alt="Без картинки">
+                                </div>
+                                <div class="col-md-6">
+                                    <a class="link-primary" th:href="@{/product/{id}(id=${product.id})}">[[${product.name}]]</a>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="text-dark">Количество:
+                                        [[${order.products.get(product)}]]</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-dark">Цена: <b class="text-info">[[${product.price}]] $</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:unless="${message}" class="col-md-10">
+    <div th:replace="fragments/pagination :: pagination">pagination</div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

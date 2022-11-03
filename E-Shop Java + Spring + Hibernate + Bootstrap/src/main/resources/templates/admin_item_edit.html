@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/admin_header :: admin_header">header</div>
+<div th:switch="${pageType}" class="ms-5 my-3">
+    <a th:case="'category'" class="link-primary fs-4" href="/admin/category">Вернуться к панели категорий</a>
+    <a th:case="'product'" class="link-primary fs-4" href="/admin/product">Вернуться к панели продуктов</a>
+    <a th:case="'order'" class="link-primary fs-4" href="/admin/order">Вернуться к панели заказов</a>
+    <a th:case="'user'" class="link-primary fs-4" href="/admin/user">Вернуться к панели пользователей</a>
+</div>
+<div class="ms-5 my-3 text-center">
+    <th:block th:if="${object.id} == null" th:switch="${pageType}">
+        <h3 th:case="'category'">Добавление новой категории</h3>
+        <h3 th:case="'product'">Добавление нового товара</h3>
+    </th:block>
+    <th:block th:if="${object.id} != null" th:switch="${pageType}">
+        <h3 th:case="'category'">Редактирование категории №[[${object.id}]]</h3>
+        <h3 th:case="'product'">Редактирование товара №[[${object.id}]]</h3>
+        <h3 th:case="'order'">Редактирование заказа №[[${object.id}]]</h3>
+        <h3 th:case="'user'">Изменение данных пользователя №[[${object.id}]]</h3>
+    </th:block>
+</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-sm-9">
+            <th:block th:if="${pageType} == 'product' or ${pageType} == 'category'">
+                <div th:replace="fragments/admin_item_form :: admin_item_form">form</div>
+            </th:block>
+            <th:block th:if="${pageType} == 'order'">
+                <div th:replace="fragments/admin_item_form :: admin_order_form">form</div>
+            </th:block>
+            <th:block th:if="${pageType} == 'user'">
+                <div th:replace="fragments/admin_item_form :: admin_user_form">form</div>
+            </th:block>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

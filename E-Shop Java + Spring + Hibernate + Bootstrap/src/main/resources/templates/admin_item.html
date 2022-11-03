@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/admin_header :: admin_header">header</div>
+<div th:switch="${pageType}" class="ms-5 my-3">
+    <h3 th:case="'category'">Управление категориями</h3>
+    <h3 th:case="'product'">Управление продуктами</h3>
+    <h3 th:case="'order'">Управление заказами</h3>
+    <h3 th:case="'user'">Управление пользователями</h3>
+</div>
+<div th:if="${pageType} != 'order' or ${pageType} != 'user'" class="ms-5 my-3">
+    <div th:switch="${pageType}">
+        <a th:case="'category'" class="btn btn-outline-info" href="/admin/category/new">Добавить новую категорию</a>
+        <a th:case="'product'" class="btn btn-outline-info" href="/admin/product/new">Добавить новый товар</a>
+    </div>
+</div>
+<div th:replace="fragments/pagination :: pagination">pagination</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <th:block th:if="${page}">
+            <div class="col-md-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" th:switch="${pageType}">
+                                <span th:case="'category'">ID категории</span>
+                                <span th:case="'product'">ID товара</span>
+                                <span th:case="'order'">ID заказа</span>
+                                <span th:case="'user'">ID пользователя</span>
+                            </th>
+                            <th th:if="${pageType} == 'product' or ${pageType} == 'category'" scope="col">Назавание</th>
+                            <th:block th:if="${pageType} == 'order'">
+                                <th scope="col">Имя покупателя</th>
+                                <th scope="col">Телефон покупателя</th>
+                                <th scope="col">Дата оформления</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col"></th>
+                            </th:block>
+                            <th:block th:if="${pageType} == 'user'">
+                                <th scope="col">Имя покупателя</th>
+                                <th scope="col">Почта покупателя</th>
+                                <th scope="col">Телефон покупателя</th>
+                                <th scope="col">Роли покупателя</th>
+                                <th scope="col">Статус</th>
+                            </th:block>
+                            <th:block th:if="${pageType} == 'product'">
+                                <th scope="col">Артикул товара</th>
+                                <th scope="col">Цена</th>
+                            </th:block>
+                            <th th:if="${pageType} == 'category'" scope="col">Порядок в панели категорий</th>
+                            <th th:if="${pageType} == 'product' or ${pageType} == 'category'" scope="col">Видимость</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="content: ${page.content}">
+                            <th scope="row">[[${content.id}]]</th>
+                            <td th:if="${pageType} == 'product' or ${pageType} == 'category'">[[${content.name}]]</td>
+                            <th:block th:if="${pageType} == 'order'">
+                                <td scope="col">[[${content.user.username}]]</td>
+                                <td scope="col">[[${content.user.phone}]]</td>
+                                <td scope="col">[[${#dates.format(content.date)}]]</td>
+                                <td scope="col">[[${content.status}]]</td>
+                                <td scope="col"><a class="link-primary" th:href="@{/admin/{pageType}/{id}(id=${content.id}, pageType=${pageType})}">Смотреть</a></td>
+                            </th:block>
+                            <th:block th:if="${pageType} == 'user'">
+                                <th scope="col">[[${content.username}]]</th>
+                                <th scope="col">[[${content.email}]]</th>
+                                <th scope="col">[[${content.phone}]]</th>
+                                <th scope="col">[[${#strings.setJoin(content.roles,',')}]]</th>
+                                <th scope="col">[[${content.active} ? 'Активен' : 'Не активен']]</th>
+                            </th:block>
+                            <th:block th:if="${pageType} == 'product'">
+                                <td>[[${content.code}]]</td>
+                                <td>[[${content.price}]]</td>
+                            </th:block>
+                            <td th:if="${pageType} == 'category'">[[${content.sortOrder}]]</td>
+                            <td th:if="${pageType} == 'product' or ${pageType} == 'category'">[[${content.status} ? 'Видно' : 'Не видно']]</td>
+                            <td><a class="link-primary" th:href="@{/admin/{pageType}/{id}/edit(id=${content.id}, pageType=${pageType})}">Редактировать</a></td>
+                            <td><a class="link-danger" th:href="@{/admin/{pageType}/{id}/delete(id=${content.id}, pageType=${pageType})}">Удалить</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </th:block>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>

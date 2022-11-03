@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header">header</div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h4 class="text-center mb-4">Оформление заказа</h4>
+            <p>Всего товаров: <b>[[${#aggregates.sum(session.productsInCart.values())}]]</b></p>
+            <p>Общая сумма: <b>[[${totalPrice}]] $</b></p>
+            <form th:action="@{/order}" th:method="POST">
+                <div class="mb-3">
+                    <label for="userComment" class="form-label fs-4">Добавить комментарий: </label>
+                    <textarea class="form-control my-2"  id="userComment" name="userComment" rows="4"></textarea>
+                </div>
+                <div class="row justify-content-center my-4">
+                    <input type="submit" class="btn btn-primary col-md-6" value="Подтвердить заказ">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">footer</div>
+</div>
+
+</body>
+</html>

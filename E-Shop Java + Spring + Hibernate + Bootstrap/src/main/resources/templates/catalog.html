@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header">header</div>
+<div th:replace="fragments/categories :: categories">categories</div>
+<div class="col-md-9 mt-2">
+    <div th:each="product: ${page.content}">
+        <div th:replace="fragments/product :: product">product</div>
+    </div>
+</div>
+</div>
+</div>
+<div th:replace="fragments/pagination :: pagination">pagination</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+</body>
+</html>
