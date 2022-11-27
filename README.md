@@ -5,4 +5,4 @@
 3. REST JS+PHP. Простое REST API. Сервер написан на PHP. Клиентский функционал создан на JavaScript с применением библиотеки jQuery.
 4. Shop PHP. Сайт интернет магазина. Написан на PHP. Для дизайна сайта использовался чистый CSS.
 
-Самый последний, написанный мной проект: <b>E-Shop Java + Spring + Hibernate + Bootstrap</b>.
+Самый последний, созданный мной проект: <b>E-Shop Java + Spring + Hibernate + Bootstrap</b>.
