@@ -44,6 +44,7 @@ class SiteController {
             if ($errors == false) {
                 $message = "Текст: {$userText}. От {$userEmail}";
                 $result = User::mailForAdmin('admin.site@mail.ru', $message, 'Тема сообщения');
+                require_once (ROOT . '/views/site/contact.php');
                 return $result;
             }
         }
